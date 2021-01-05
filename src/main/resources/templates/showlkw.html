@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap.css">
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap-theme.css">
+
+    <!-- 引入jquery文件 -->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <!-- 引入bootstrap的js文件 -->
+    <script type="text/javascript" src="../js/bootstrap/bootstrap3/js/bootstrap.min.js"></script>
+
+    <!-- 引入表格的css和js文件 -->
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap-table/bootstrap-table.css">
+    <script src="../js/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+
+    <!-- 引入弹框的js文件 -->
+    <script src="../js/bootstrap/bootstrap-bootbox/bootbox.js"></script>
+
+    <!-- 引入日期得css和js文件 -->
+    <script src="../js/bootstrap/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+</head>
+<body>
+    <div id="mydiv">
+        音乐or作者<input class="form-control" id="pname">
+        发布时间<input class="form-control data" id="min">--<input class="form-control data" id="max">
+        <button type="button" onclick="sou()" class="btn btn-success glyphicon glyphicon-search">查询</button>
+        <button type="button" onclick="openadd()" style="width: 240px" class="btn btn-primary">新增</button>
+    </div>
+    <table id="mytable" class="table"></table>
+</body>
+<script type="text/javascript">
+    $(function () {
+        inittable()
+    })
+
+    function sou() {
+        $("#mytable").bootstrapTable("refresh")
+    }
+
+    function inittable() {
+        $("#mytable").bootstrapTable({
+            url:"/test/initmusic",
+            columns:[
+                {field:"id",title:"编号"},
+                {field:"musicname",title:"音乐名称"},
+                {field:"author",title:"作者"},
+                {field:"launchtime",title:"发布时间"},
+                {field:"price",title:"价格"},
+                {field:"info",title:"描述"}
+            ],
+            pagination:true,
+            pageSize:5,
+            pageList:[5,10,15,20],
+            pageNumber:1,
+            sidePagination:'server',
+            queryParams:function(){
+                return {
+                    page:this.pageNumber,//第几页
+                    rows:this.pageSize,//每页条数x
+                    musicname:$("#pname").val(),
+                    mindate:$("#min").val(),
+                    maxdate:$("#max").val()
+                };
+            }
+        })
+    }
+
+</script>
+</html>
