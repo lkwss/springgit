@@ -38,6 +38,114 @@
         inittable()
     })
 
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,//同步，默认是：异步
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    function openadd(){
+        bootbox.dialog({
+            title:'添加音乐信息',
+            message: createAddContent("/test/toadd"),//弹框内容
+            closeButton: true,//是否显示关闭按钮
+            buttons : {
+                "success" : {
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback" : function() {
+                        //提交表单数据：保存
+                        $.ajax({
+                            url:"/test/addtrain",
+                            type:"post",
+                            data:$("#myform").serialize(),
+                            success:function () {
+                                bootbox.alert({
+                                    size: "small",
+                                    title: "提示",
+                                    message: "新增成功！！！",
+                                    callback: function(){
+                                        sou()
+                                    }
+                                });
+
+                            }
+                        })
+                    }
+                },
+                "cancel" : {
+                    "label" : "<i class='icon-info'></i> 取消",
+                    "className" : "btn-sm btn-danger",
+                    "callback" : function() {
+
+                    }
+                }
+            }
+
+        });
+    }
+    function openxg(id){
+        bootbox.dialog({
+            title:'修改评论信息',
+            message: createAddContent("/train/toadd"),//弹框内容
+            closeButton: true,//是否显示关闭按钮
+            buttons : {
+                "success" : {
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback" : function() {
+                        //提交表单数据：保存
+                        $.ajax({
+                            url:"/test/addtrain",
+                            type:"post",
+                            data:$("#myform").serialize(),
+                            success:function () {
+                                bootbox.alert({
+                                    size: "small",
+                                    title: "提示",
+                                    message: "新增成功！！！",
+                                    callback: function(){
+                                        $("#mytable").bootstrapTable("refresh")
+                                    }
+
+                                });
+
+                            }
+                        })
+                    }
+                },
+                "cancel" : {
+                    "label" : "<i class='icon-info'></i> 取消",
+                    "className" : "btn-sm btn-danger",
+                    "callback" : function() {
+
+                    }
+                }
+            }
+
+        });
+        $.ajax({
+            url:"/train/findTrainById",
+            type:"get",
+            data:{id:id},
+            success:function (data) {
+                $("#id").val(data.id);
+                $("#mc").val(data.trainNumber);
+                $("#xq").val(data.typeid);
+                $("#sjdate").val(data.setOut);
+                $("#type").val(data.arrive);
+                $("#price").val(data.price);
+                $("#info").val(data.info);
+                $("#departureTime").val(data.departureTime);
+            }
+        })
+    }
+
     function sou() {
         $("#mytable").bootstrapTable("refresh")
     }
