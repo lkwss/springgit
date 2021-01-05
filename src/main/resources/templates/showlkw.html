@@ -25,12 +25,6 @@
     <link rel="stylesheet" href="../js/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 </head>
 <body>
-    <div id="mydiv">
-        音乐or作者<input class="form-control" id="pname">
-        发布时间<input class="form-control data" id="min">--<input class="form-control data" id="max">
-        <button type="button" onclick="sou()" class="btn btn-success glyphicon glyphicon-search">查询</button>
-        <button type="button" onclick="openadd()" style="width: 240px" class="btn btn-primary">新增</button>
-    </div>
     <table id="mytable" class="table"></table>
 </body>
 <script type="text/javascript">
@@ -61,7 +55,7 @@
                     "callback" : function() {
                         //提交表单数据：保存
                         $.ajax({
-                            url:"/test/addtrain",
+                            url:"/test/addmusic",
                             type:"post",
                             data:$("#myform").serialize(),
                             success:function () {
@@ -92,7 +86,7 @@
     function openxg(id){
         bootbox.dialog({
             title:'修改评论信息',
-            message: createAddContent("/train/toadd"),//弹框内容
+            message: createAddContent("/test/toadd"),//弹框内容
             closeButton: true,//是否显示关闭按钮
             buttons : {
                 "success" : {
@@ -101,7 +95,7 @@
                     "callback" : function() {
                         //提交表单数据：保存
                         $.ajax({
-                            url:"/test/addtrain",
+                            url:"/test/addmusic",
                             type:"post",
                             data:$("#myform").serialize(),
                             success:function () {
@@ -130,26 +124,28 @@
 
         });
         $.ajax({
-            url:"/train/findTrainById",
+            url:"/test/findmusicById",
             type:"get",
             data:{id:id},
             success:function (data) {
                 $("#id").val(data.id);
-                $("#mc").val(data.trainNumber);
-                $("#xq").val(data.typeid);
-                $("#sjdate").val(data.setOut);
-                $("#type").val(data.arrive);
+                $("#mc").val(data.musicname);
+                $("#author").val(data.author);
+                $("#launchtime").val(data.launchtime);
                 $("#price").val(data.price);
                 $("#info").val(data.info);
-                $("#departureTime").val(data.departureTime);
             }
         })
     }
-
-    function sou() {
-        $("#mytable").bootstrapTable("refresh")
+    function delmusic(id) {
+        $.attr({
+            url:"/test/delmusic",
+            data:{id:id},
+            success:function () {
+                $("#mytable").bootstrapTable("refresh")
+            }
+        })
     }
-
     function inittable() {
         $("#mytable").bootstrapTable({
             url:"/test/initmusic",
@@ -161,7 +157,7 @@
                 {field:"price",title:"价格"},
                 {field:"info",title:"描述"},
                 {field:"cz",title:"操作",formatter:function (value,rows,index) {
-                        return '<button type="button" onclick="sou()" class="btn btn-success glyphicon glyphicon-search">查询</button>'
+                        return '<button type="button" onclick="delmusic('+row.id+')" class="btn btn-success glyphicon glyphicon-search">删除</button>|<button type="button" onclick="openxg('+row.id+')" class="btn btn-success glyphicon glyphicon-search">修改</button>'
                     }}
             ],
             pagination:true,
