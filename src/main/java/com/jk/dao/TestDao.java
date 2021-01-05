@@ -1,5 +1,8 @@
 package com.jk.dao;
 
+import com.jk.pojo.CarBean;
+import com.jk.pojo.StudentBean;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +15,16 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface TestDao {
+    void saveCar(CarBean carBean);
+
+    @Delete("delete from t_car where carId = #{carId}")
+    void delCar(Integer carId);
+
+    void fwjadd(StudentBean bea);
+
+    StudentBean fwjselectid(Integer id);
+
+    void fwjupdate(StudentBean bea);
+
+    void fwjdelete(Integer id);
 }

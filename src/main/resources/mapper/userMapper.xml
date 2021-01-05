@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.dao.TestDao">
-
+    <insert id="saveCar" useGeneratedKeys="true" keyProperty="carId">
+        insert into t_car(carName,typeName,carPrice,carDate)
+        values (#{carName},#{typeName}#{carPrice}#{carDate})
+    </insert>
+    <insert id="fwjadd" useGeneratedKeys="true" keyProperty="id">
+        insert into t_student(name,content,time,lname)
+        values(#{name},#{content},#{time},#{lname})
+    </insert>
+    <select id="fwjselectid" resultType="com.jk.pojo.StudentBean">
+        select * from t_student where id=#{id}
+    </select>
+    <update id="fwjupdate">
+        update t_student set name=#{name},content=#{content},time=#{time},lname=#{lname} where id=#{id}
+    </update>
+    <delete id="fwjdelete">
+        delete from t_student where id =#{id}
+    </delete>
 </mapper>

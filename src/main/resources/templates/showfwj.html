@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css">
-    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap-theme.css">
-
-    <!-- 引入bootstap的css文件 -->
-    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css">
-    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap-theme.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap.css">
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap-theme.css">
 
     <!-- 引入jquery文件 -->
     <script type="text/javascript" src="../js/jquery.min.js"></script>
     <!-- 引入bootstrap的js文件 -->
-    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap/bootstrap3/js/bootstrap.min.js"></script>
 
     <!-- 引入表格的css和js文件 -->
-    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css">
-    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
-    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap-table/bootstrap-table.css">
+    <script src="../js/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
 
     <!-- 引入弹框的js文件 -->
-    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+    <script src="../js/bootstrap/bootstrap-bootbox/bootbox.js"></script>
 
     <!-- 引入日期得css和js文件 -->
-    <script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-    <script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-    <link rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <script src="../js/bootstrap/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 </head>
 <body>
+<form class="form-inline">
+    <button type="button" onclick="zeng()">新增</button>
+</form>
   <table class="table" id="bod"></table>
 </body>
 <script>
@@ -35,10 +35,139 @@
         chaxun();
     })
 
+    function shan(id){
+        bootbox.confirm({
+            size: "small",
+            title:"提示",
+            message: "是否确认删除?",
+            buttons: {
+                confirm: {
+                    label: '确定',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result){
+                if(result){
+                    $.ajax({
+                        url:"../test/fwjdelete",
+                        data:{id:id},
+                        success:function(){
+                            //alert("删除成功！！！");
+                            bootbox.alert({
+                                size: "small",
+                                title: "提示",
+                                message: "删除成功！！！",
+                                callback: function(){}
+                            });
+                            $('#bod').bootstrapTable('refresh');
+                        }
+                    });
+                }
+            }
+        })
+    }
+
+    function xiu(id){
+        bootbox.dialog({
+            title:'修改用户',
+            message: createAddContent("../test/fwjzeng"),//弹框内容
+            closeButton: true,//是否显示关闭按钮
+            buttons : {
+                "success" : {
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback" : function() {
+                        //提交表单数据：保存
+                        $.ajax({
+                            url:'../test/fwjadd',//后台请求地址
+                            type:'post',
+                            data:$("#userForm").serialize(),//表单序列化
+                            //dataType:'json',
+                            success:function(){
+                                //刷新表格
+                                $('#bod').bootstrapTable('refresh');
+                            }
+                        });
+                    }
+                },
+                "cancel" : {
+                    "label" : "<i class='icon-info'></i> 取消",
+                    "className" : "btn-sm btn-danger",
+                    "callback" : function() {
+
+                    }
+                }
+            }
+
+        });
+        $.ajax({
+            url:'../test/fwjselectid',
+            type:'get',
+            data:{id:id},
+            success:function(data){
+                $("#id").val(data.id);
+                $("#ming").val(data.name);
+                $("#score").val(data.content);
+                $("#miao").val(data.lname);
+                $("#date").val(data.time);
+            }
+        });
+
+    }
+
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,//同步，默认是：异步
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    function zeng(){
+        bootbox.dialog({
+            title:'添加用户',
+            message: createAddContent("../test/fwjzeng"),//弹框内容
+            closeButton: true,//是否显示关闭按钮
+            buttons : {
+                "success" : {
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback" : function() {
+                        //提交表单数据：保存
+                        $.ajax({
+                            url:'../test/fwjadd',//后台请求地址
+                            type:'put',
+                            data:$("#userForm").serialize(),//表单序列化
+                            //dataType:'json',
+                            success:function(){
+                                //刷新表格
+                                $('#bod').bootstrapTable('refresh');
+                            }
+                        });
+                    }
+                },
+                "cancel" : {
+                    "label" : "<i class='icon-info'></i> 取消",
+                    "className" : "btn-sm btn-danger",
+                    "callback" : function() {
+
+                    }
+                }
+            }
+
+        });
+    }
     function chaxun(){
         $('#bod').bootstrapTable({
             toolbar:'#toolbar',//工具栏
-            url:'../car/select',//获取数据地址
+            url:'../test/fwjselect',//获取数据地址
             pagination:true, //是否展示分页
             pageList:[2, 4, 6, 8],//分页组件
             pageNumber:1,
