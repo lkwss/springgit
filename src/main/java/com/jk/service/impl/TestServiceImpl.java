@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.jk.dao.EsDao;
 import com.alibaba.fastjson.JSONObject;
 import com.jk.dao.CarEs;
+import com.jk.dao.EmpEs;
 import com.jk.dao.MusicEs;
 import com.jk.dao.TestDao;
 import com.jk.pojo.Train;
 import com.jk.pojo.CarBean;
+import com.jk.pojo.EmpBean;
 import com.jk.pojo.MusicBean;
 import com.jk.service.TestService;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -55,6 +57,9 @@ public class TestServiceImpl implements TestService {
 
     @Autowired
     private CarEs carEs;
+
+    @Autowired
+    private EmpEs empEs;
 
     @Autowired
     private MusicEs musicEs;
@@ -224,6 +229,62 @@ public class TestServiceImpl implements TestService {
     public void delCar(Integer carId) {
         testDao.delCar(carId);
         carEs.deleteById(carId);
+    }
+
+    @Override
+    public Map<String,Object> findEmp(Integer page, Integer rows) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        List<EmpBean> list = new ArrayList<>();
+
+        //1、获取es客户端对象
+        Client client = template.getClient();
+        //2、创建查询对象：设置索引、类型
+        SearchRequestBuilder search = client.prepareSearch("emps")//索引、数据库
+                .setTypes("emp");//类型、表
+
+        //分页
+        search.setFrom((page-1)*rows);//开始位置
+        search.setSize(rows);//没有条数
+
+        //3、执行、获取查询结果
+        SearchResponse searchResponse = search.get();
+
+        SearchHits hits = searchResponse.getHits();
+
+        Iterator<SearchHit> iterator = hits.iterator();
+        while (iterator.hasNext()){
+            SearchHit next = iterator.next();
+            String str = next.getSourceAsString();
+            //把字符串转换成javabean对象
+            EmpBean empBean = JSONObject.parseObject(str, EmpBean.class);
+        }
+        //获取总条数：
+        long total = hits.getTotalHits();
+        result.put("total",total);
+        result.put("rows",list);
+        return result;
+    }
+
+    @Override
+    public void saveEmp(EmpBean empBean) {
+        if (empBean.getId()!=null){
+            testDao.updateEmp(empBean);
+        }else {
+            testDao.saveEmp(empBean);
+        }
+        empEs.save(empBean);
+    }
+
+    @Override
+    public void delEmpById(Integer id) {
+        empEs.deleteById(id);
+        testDao.delEmpById(id);
+    }
+
+    @Override
+    public EmpBean findEmpById(Integer id) {
+        Optional<EmpBean> esById = empEs.findById(id);
+        return esById.get();
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.jk.service;
 
+import com.jk.pojo.CarBean;
+import com.jk.pojo.EmpBean;
 import com.jk.pojo.Train;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.jk.pojo.CarBean;
 import com.jk.pojo.MusicBean;
@@ -29,6 +32,14 @@ public interface TestService {
     CarBean findCarById(Integer carId);
 
     void delCar(Integer carId);
+
+    Map findEmp(Integer page, Integer rows);
+
+    void saveEmp(EmpBean empBean);
+
+    void delEmpById(Integer id);
+
+    EmpBean findEmpById(Integer id);
 
     HashMap<String, Object> initmusic(Integer page, Integer rows);
 

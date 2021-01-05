@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap.css">
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap-theme.css">
+
+    <!-- 引入jquery文件 -->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <!-- 引入bootstrap的js文件 -->
+    <script type="text/javascript" src="../js/bootstrap/bootstrap3/js/bootstrap.min.js"></script>
+
+    <!-- 引入表格的css和js文件 -->
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap-table/bootstrap-table.css">
+    <script src="../js/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+
+    <!-- 引入弹框的js文件 -->
+    <script src="../js/bootstrap/bootstrap-bootbox/bootbox.js"></script>
+
+    <!-- 引入日期得css和js文件 -->
+    <script src="../js/bootstrap/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+
+</head>
+<body>
+<div id="toolbar">
+    <button onclick="openAddDialog()" type="button" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>新增</button>
+    <!--<button onclick="delEmp()" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>刪除</button>-->
+</div>
+<div class="table" id="empTable"></div>
+</body>
+<script>
+    $(function(){
+        initEmpTable();
+    })
+    function openAddDialog(){
+        bootbox.dialog({
+            title:'<i class="glyphicon glyphicon-music"></i>新增音乐',
+            closeButton: true,
+            size: 'large',
+            message:createAddContent('../test/toAddPage'),
+            buttons:{
+                success:{
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback":function(){
+                        saveEmp();
+                    }
+                }
+            }
+        })
+    }
+    function editEmp(id){
+        bootbox.dialog({
+            title:'<i class="glyphicon glyphicon-music"></i>编辑音乐',
+            closeButton: true,
+            size: 'large',
+            message:createAddContent('../test/toEditPage'),
+            buttons:{
+                success:{
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback":function(){
+                        saveEmp();
+                    }
+                }
+            }
+        })
+        $.ajax({
+            url:'../test/findEmpById',
+            type:'post',
+            data:{
+                id:id
+            },
+            dataType:'json',
+            success:function(data){
+                $("#inputEmpId").val(data.id);
+                $("#inputEmpName").val(data.empName);
+                $("#inputEmpPay").val(data.pay);
+                $("#inputEmpMotto").val(data.motto);
+                $("#inputEmpSex").val(data.sex);
+            }
+        })
+    }
+    function saveEmp(){
+        $.ajax({
+            url:'../test/saveEmp',
+            type:'post',
+            data:$("#empForm").serialize(),
+            success:function(data){
+            }
+
+        })
+    }
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    /*function delEmp(){
+        var rows = $("#empTable").bootstrapTable('getSelections');
+        var ids = '';
+        for (var i = 0; i < rows.length; i++) {
+            ids += ids == '' ? rows[i].id : ","+rows[i].id;
+        }
+        $.post('../test/delEmpById',{ids:ids},function(data){
+            searchEmp();
+        })
+    }*/
+    /*function searchEmp(){
+        $("#empTable").bootstrapTable('refresh',{
+            query:{
+                page:1
+            }
+        })
+    }*/
+    function initEmpTable(){
+        $("#empTable").bootstrapTable({
+            url:'../test/findEmp',
+            pagination:true,
+            toolbar:'#toolbar',
+            sidePagination:'server',//分页方式：client客户端分页，server服务端分页
+            pageList:[5, 10, 20, 50],//分页组件
+            pageNumber:1,
+            pageSize:5,//默认每页条数
+            method:'post',
+            contentType:'application/x-www-form-urlencoded',//post请求按照表单方式
+            clickToSelect: true, //是否启用点击选中行
+            striped:true,//斑马线
+            queryParams:function(){
+                return {
+                    page:this.pageNumber,
+                    rows:this.pageSize,
+                };
+            },
+            columns:[
+                {checkbox:true},
+                {field:'empName',title:'名称'},
+                {field:'pay',title:'薪资'},
+                {field:'motto',title:'格言'},
+                {field:'sex',title:'性别'},
+                {field:'cz',title:'操作',formatter:function(value,row,index){
+                        return '<a href="javascript:delEmp('+row.id+');">删除</a>'+'<a href="javascript:editEmp('+row.id+');">修改</a>'
+                    }},
+            ]
+        })
+    }
+</script>
+</html>

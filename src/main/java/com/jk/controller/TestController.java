@@ -2,6 +2,7 @@ package com.jk.controller;
 
 import com.jk.pojo.Train;
 import com.jk.pojo.CarBean;
+import com.jk.pojo.EmpBean;
 import com.jk.pojo.MusicBean;
 import com.jk.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -97,6 +99,72 @@ public class TestController {
     @ResponseBody
     public Train qzcgetbyid(Integer id){
         return testService.qzcgetbyid(id);
+    }
+
+
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping("toMain")
+    public String toMain(){
+        return "emp/main";
+    }
+    /**
+     *
+     */
+    @RequestMapping("toEditPage")
+    public String toEditPage(){
+        return "emp/editemp";
+    }
+    /**
+     *
+     * @return
+     */
+    @RequestMapping("toAddPage")
+    public String toAddPage(){
+        return "emp/addemp";
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("findEmpById")
+    @ResponseBody
+    public EmpBean findEmpById(Integer id){
+        return testService.findEmpById(id);
+    }
+    /**
+     * 删除
+     * @param id
+     */
+    @RequestMapping("delEmpById")
+    @ResponseBody
+    public void delEmpById(Integer id){
+        testService.delEmpById(id);
+    }
+    /**
+     *
+     * @param empBean
+     */
+    @RequestMapping("saveEmp")
+    @ResponseBody
+    public void saveEmp(EmpBean empBean){
+        testService.saveEmp(empBean);
+    }
+    /**
+     *
+     * @param page
+     * @param rows
+     * @return
+     */
+    @RequestMapping("findEmp")
+    @ResponseBody
+    public Map findEmp(Integer page,Integer rows){
+        return testService.findEmp(page,rows);
     }
 
 

@@ -2,9 +2,12 @@ package com.jk.dao;
 
 import com.jk.pojo.Train;
 import com.jk.pojo.CarBean;
+import com.jk.pojo.EmpBean;
 import com.jk.pojo.MusicBean;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -30,7 +33,16 @@ public interface TestDao {
     @Delete("delete from t_car where carId = #{carId}")
     void delCar(Integer carId);
 
+    @Insert("insert into t_emp(empName,pay,motto,sex) values(#{empName},#{pay},#{motto},#{sex}) ")
+    void saveEmp(EmpBean empBean);
+
+    @Delete("delete from t_emp where id = #{id}")
+    void delEmpById(Integer id);
+
     void updCar(CarBean carBean);
+
+    @Update("update t_emp set empName = #{empName},pay = #{pay},motto = #{motto},sex = #{sex} where id = #{id}")
+    void updateEmp(EmpBean empBean);
 
     void addmusic(MusicBean musicBean);
 
