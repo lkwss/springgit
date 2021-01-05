@@ -71,6 +71,7 @@ public class TestServiceImpl implements TestService {
             String str = next.getSourceAsString();
             //把字符串转换成javabean对象
             CarBean carBean = JSONObject.parseObject(str, CarBean.class);
+            list.add(carBean);
         }
         //获取总条数：
         long total = hits.getTotalHits();
@@ -81,7 +82,11 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void saveCar(CarBean carBean) {
-        testDao.saveCar(carBean);
+        if (carBean.getCarId()!=null){
+            testDao.updCar(carBean);
+        }else {
+            testDao.saveCar(carBean);
+        }
         carEs.save(carBean);
     }
 

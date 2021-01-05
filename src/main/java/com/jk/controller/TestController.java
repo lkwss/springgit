@@ -29,6 +29,11 @@ public class TestController {
         return "lwShow";
     }
 
+    @RequestMapping("carSave")
+    public String carSave(){
+        return "carSave";
+    }
+
     @RequestMapping("findCar")
     @ResponseBody
     public HashMap<String,Object> findCar(int page,int rows){
