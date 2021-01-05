@@ -51,7 +51,10 @@
                 {field:"author",title:"作者"},
                 {field:"launchtime",title:"发布时间"},
                 {field:"price",title:"价格"},
-                {field:"info",title:"描述"}
+                {field:"info",title:"描述"},
+                {field:"cz",title:"操作",formatter:function (value,rows,index) {
+                        return '<button type="button" onclick="sou()" class="btn btn-success glyphicon glyphicon-search">查询</button>'
+                    }}
             ],
             pagination:true,
             pageSize:5,
