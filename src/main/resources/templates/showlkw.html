@@ -25,6 +25,11 @@
     <link rel="stylesheet" href="../js/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 </head>
 <body>
+<div id="mydiv">
+    <form class="form-inline">
+        <button type="button" onclick="openadd()" style="width: 240px" class="btn btn-primary">新增</button>
+    </form>
+</div>
     <table id="mytable" class="table"></table>
 </body>
 <script type="text/javascript">
@@ -64,7 +69,7 @@
                                     title: "提示",
                                     message: "新增成功！！！",
                                     callback: function(){
-                                        sou()
+                                        $("#mytable").bootstrapTable("refresh")
                                     }
                                 });
 
@@ -138,7 +143,7 @@
         })
     }
     function delmusic(id) {
-        $.attr({
+        $.ajax({
             url:"/test/delmusic",
             data:{id:id},
             success:function () {
@@ -156,7 +161,7 @@
                 {field:"launchtime",title:"发布时间"},
                 {field:"price",title:"价格"},
                 {field:"info",title:"描述"},
-                {field:"cz",title:"操作",formatter:function (value,rows,index) {
+                {field:"cz",title:"操作",formatter:function (value,row,index) {
                         return '<button type="button" onclick="delmusic('+row.id+')" class="btn btn-success glyphicon glyphicon-search">删除</button>|<button type="button" onclick="openxg('+row.id+')" class="btn btn-success glyphicon glyphicon-search">修改</button>'
                     }}
             ],

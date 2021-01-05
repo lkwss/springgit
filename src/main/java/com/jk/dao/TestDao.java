@@ -1,6 +1,7 @@
 package com.jk.dao;
 
 import com.jk.pojo.CarBean;
+import com.jk.pojo.MusicBean;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -18,4 +19,10 @@ public interface TestDao {
 
     @Delete("delete from t_car where carId = #{carId}")
     void delCar(Integer carId);
+
+    void addmusic(MusicBean musicBean);
+
+    void updmusic(MusicBean musicBean);
+
+    void delmusic(Integer id);
 }

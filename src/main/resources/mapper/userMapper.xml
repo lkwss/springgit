@@ -5,4 +5,17 @@
         insert into t_car(carName,typeName,carPrice,carDate)
         values (#{carName},#{typeName}#{carPrice}#{carDate})
     </insert>
+
+
+    <insert id="addmusic" useGeneratedKeys="true" keyProperty="id">
+        insert into t_music (musicname,author,launchtime,info,price) values(#{musicname},#{author},#{launchtime},#{info},#{price})
+    </insert>
+
+    <update id="updmusic">
+        update t_music set musicname=#{musicname},author=#{author},launchtime=#{launchtime},info=#{info},price=#{price} where id=#{id}
+    </update>
+
+    <delete id="delmusic">
+        delete from t_music where id=#{id}
+    </delete>
 </mapper>

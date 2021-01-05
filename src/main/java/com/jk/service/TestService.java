@@ -1,6 +1,7 @@
 package com.jk.service;
 
 import com.jk.pojo.CarBean;
+import com.jk.pojo.MusicBean;
 
 import java.util.HashMap;
 
@@ -18,4 +19,12 @@ public interface TestService {
     CarBean findCarById(Integer carId);
 
     void delCar(Integer carId);
+
+    HashMap<String, Object> initmusic(Integer page, Integer rows);
+
+    void addmusic(MusicBean musicBean);
+
+    MusicBean findmusicById(Integer id);
+
+    void delmusic(Integer id);
 }
