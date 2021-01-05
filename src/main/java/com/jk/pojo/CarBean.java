@@ -1,7 +1,9 @@
 package com.jk.pojo;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,6 +11,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
  * Date: 2021/1/5
  * Time: 19:47
  */
+@Data
 @Document(indexName = "car",type = "t_car")
 public class CarBean {
 
@@ -17,5 +20,6 @@ public class CarBean {
     private String carName;
     private String typeName;
     private Integer carPrice;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String carDate;
 }

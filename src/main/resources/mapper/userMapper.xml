@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.dao.TestDao">
+    <insert id="saveCar" useGeneratedKeys="true" keyProperty="carId">
+        insert into t_car(carName,typeName,carPrice,carDate)
+        values (#{carName},#{typeName}#{carPrice}#{carDate})
+    </insert>
+
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -34,4 +39,15 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+    <insert id="addmusic" useGeneratedKeys="true" keyProperty="id">
+        insert into t_music (musicname,author,launchtime,info,price) values(#{musicname},#{author},#{launchtime},#{info},#{price})
+    </insert>
+
+    <update id="updmusic">
+        update t_music set musicname=#{musicname},author=#{author},launchtime=#{launchtime},info=#{info},price=#{price} where id=#{id}
+    </update>
+
+    <delete id="delmusic">
+        delete from t_music where id=#{id}
+    </delete>
 </mapper>
