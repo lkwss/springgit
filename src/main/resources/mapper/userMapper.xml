@@ -2,4 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.dao.TestDao">
 
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_train
+    where id = #{id}
+  </delete>
+
+    <insert id="insert" parameterType="com.jk.pojo.Train" >
+    insert into t_train (id, trainname, tname,
+      start, end, price,
+      info, time)
+    values (#{id,jdbcType=INTEGER}, #{trainname,jdbcType=VARCHAR}, #{tname,jdbcType=VARCHAR},
+      #{start,jdbcType=VARCHAR}, #{end,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+      #{info,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP})
+  </insert>
+
+    <select id="selectByPrimaryKey" resultType="com.jk.pojo.Train" parameterType="java.lang.Integer" >
+        select * from t_train
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jk.pojo.Train" >
+    update t_train
+    set trainname = #{trainname,jdbcType=VARCHAR},
+      tname = #{tname,jdbcType=VARCHAR},
+      start = #{start,jdbcType=VARCHAR},
+      end = #{end,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      info = #{info,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
 </mapper>

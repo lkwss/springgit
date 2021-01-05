@@ -1,5 +1,6 @@
 package com.jk.dao;
 
+import com.jk.pojo.Train;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,13 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface TestDao {
+
+
+    void deleteByPrimaryKey(Integer id);
+
+    Train selectByPrimaryKey(Integer id);
+
+    void insert(Train train);
+
+    void updateByPrimaryKeySelective(Train train);
 }
