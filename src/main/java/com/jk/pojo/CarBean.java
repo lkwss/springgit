@@ -1,5 +1,6 @@
 package com.jk.pojo;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -9,6 +10,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
  * Date: 2021/1/5
  * Time: 19:47
  */
+@Data
 @Document(indexName = "car",type = "t_car")
 public class CarBean {
 
