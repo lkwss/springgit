@@ -18,4 +18,6 @@ public interface TestDao {
 
     @Delete("delete from t_car where carId = #{carId}")
     void delCar(Integer carId);
+
+    void updCar(CarBean carBean);
 }
