@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css">
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap-theme.css">
+
+    <!-- 引入bootstap的css文件 -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css">
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap-theme.css">
+
+    <!-- 引入jquery文件 -->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <!-- 引入bootstrap的js文件 -->
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.min.js"></script>
+
+    <!-- 引入表格的css和js文件 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css">
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+
+    <!-- 引入弹框的js文件 -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+
+    <!-- 引入日期得css和js文件 -->
+    <script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+</head>
+<body>
+  <table class="table" id="bod"></table>
+</body>
+<script>
+    $(function(){
+        chaxun();
+    })
+
+    function chaxun(){
+        $('#bod').bootstrapTable({
+            toolbar:'#toolbar',//工具栏
+            url:'../car/select',//获取数据地址
+            pagination:true, //是否展示分页
+            pageList:[2, 4, 6, 8],//分页组件
+            pageNumber:1,
+            pageSize:2,//默认每页条数
+            sidePagination:'server',//分页方式：client客户端分页，server服务端分页
+            striped:true,//斑马线
+            queryParams:function(){
+                return {
+                    page:this.pageNumber,//第几页
+                    rows:this.pageSize,//每页条数
+                };
+            },
+            columns:[
+                {field:"checkbox",checkbox:true},
+                {field:"id",title:"id"},
+                {field:"name",title:"姓名"},
+                {field:"content",title:"简介"},
+                {field:"time",title:"日期"},
+                {field:"lname",title:"班级"},
+                {field:"cc",title:"操作",formatter:function(value,row,index){
+                        var str="";
+                        str+="<a href='javascript:shan("+row.id+")'>删除</a>"
+                        str+="<a href='javascript:xiu("+row.id+")'>修改</a>"
+                        return str;
+                    }},
+            ]
+
+        });
+    }
+</script>
+</html>

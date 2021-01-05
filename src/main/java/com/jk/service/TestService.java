@@ -1,5 +1,7 @@
 package com.jk.service;
 
+import java.util.HashMap;
+
 /**
  * Created by IntelliJ IDEA.
  * User: 李旺
@@ -7,4 +9,5 @@ package com.jk.service;
  * Time: 19:39
  */
 public interface TestService {
+    HashMap<String, Object> fwjselect(Integer page, Integer rows);
 }
