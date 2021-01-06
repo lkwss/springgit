@@ -10,6 +10,7 @@ import com.jk.pojo.MusicBean;
 import com.jk.pojo.*;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -57,4 +58,9 @@ public interface TestDao {
     void updmusic(MusicBean musicBean);
 
     void delmusic(Integer id);
+
+    List<TreeBean> findTree(int pid);
+
+    @Update("update t_emp set empName = #{empName},pay = #{pay},motto = #{motto},sex = #{sex} where id = #{id}")
+    void updateEmp(EmpBean empBean);
 }

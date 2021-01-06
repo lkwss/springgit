@@ -225,4 +225,68 @@ public class TestController {
     public String goadd(){
         return "addgoods";
     }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping("toMain")
+    public String toMain(){
+        return "emp/main";
+    }
+    /**
+     *编辑
+     */
+    @RequestMapping("toEditPage")
+    public String toEditPage(){
+        return "emp/editemp";
+    }
+    /**
+     *
+     * @return
+     */
+    @RequestMapping("toAddPage")
+    public String toAddPage(){
+        return "emp/addemp";
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("findEmpById")
+    @ResponseBody
+    public EmpBean findEmpById(Integer id){
+        return testService.findEmpById(id);
+    }
+    /**
+     * 删除
+     * @param id
+     */
+    @RequestMapping("delEmpById")
+    @ResponseBody
+    public void delEmpById(Integer id){
+        testService.delEmpById(id);
+    }
+    /**
+     *新增
+     * @param empBean
+     */
+    @RequestMapping("saveEmp")
+    @ResponseBody
+    public void saveEmp(EmpBean empBean){
+        testService.saveEmp(empBean);
+    }
+    /**
+     *查询
+     * @param page
+     * @param rows
+     * @return
+     */
+    @RequestMapping("findEmp")
+    @ResponseBody
+    public Map findEmp(Integer page,Integer rows){
+        return testService.findEmp(page,rows);
+    }
 }
