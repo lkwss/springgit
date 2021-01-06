@@ -5,6 +5,11 @@
         insert into t_car(carName,typeName,carPrice,carDate)
         values (#{carName},#{typeName}#{carPrice}#{carDate})
     </insert>
+    <update id="updCar">
+        update t_car set carName = #{carName},typeName = #{typeName},carPrice = #{carPrice},carDate = #{carDate}
+    </update>
+
+
     <insert id="fwjadd" useGeneratedKeys="true" keyProperty="id">
         insert into t_student(name,content,time,lname)
         values(#{name},#{content},#{time},#{lname})
@@ -60,6 +65,4 @@
     <delete id="delmusic">
         delete from t_music where id=#{id}
     </delete>
-
-
 </mapper>
