@@ -6,12 +6,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.jk.dao.CarEs;
 import com.jk.dao.Stude;
 import com.jk.dao.TestDao;
-import com.jk.pojo.StudentBean;
+import com.jk.pojo.*;
 import com.jk.dao.MusicEs;
 import com.jk.dao.TestDao;
-import com.jk.pojo.Train;
-import com.jk.pojo.CarBean;
-import com.jk.pojo.MusicBean;
 import com.jk.service.TestService;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -72,6 +69,34 @@ public class TestServiceImpl implements TestService {
     private Stude stude;
     @Autowired
     private ElasticsearchTemplate templatefwj;
+
+
+    @Override
+    public List<TreeBean> findTree() {
+        int pid = 0;
+        //定义key
+        String key = "s_tree";
+        List<TreeBean> list = findTree1(pid);
+        return list;
+    }
+
+
+
+    private List<TreeBean> findTree1(int pid) {
+        List<TreeBean> list = testDao.findTree(pid);
+        for (TreeBean treeBean : list) {
+            Integer id = treeBean.getId();
+            List<TreeBean> nodeList = findTree1(id);
+            if (nodeList!=null && nodeList.size()>0) {
+                treeBean.setNodes(nodeList);
+                treeBean.setSelectable(false);
+            }else {
+                treeBean.setSelectable(true);
+            }
+        }
+        return list;
+    }
+
     @Override
     public HashMap<String, Object> fwjselect(Integer page, Integer rows) {
         List<StudentBean> list=new ArrayList<>();

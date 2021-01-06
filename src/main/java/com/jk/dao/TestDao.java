@@ -1,12 +1,11 @@
 package com.jk.dao;
 
-import com.jk.pojo.Train;
-import com.jk.pojo.CarBean;
-import com.jk.pojo.StudentBean;
-import com.jk.pojo.MusicBean;
+import com.jk.pojo.*;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,4 +44,6 @@ public interface TestDao {
     void updmusic(MusicBean musicBean);
 
     void delmusic(Integer id);
+
+    List<TreeBean> findTree(int pid);
 }

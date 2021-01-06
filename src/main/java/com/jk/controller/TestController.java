@@ -1,9 +1,6 @@
 package com.jk.controller;
 
-import com.jk.pojo.Train;
-import com.jk.pojo.CarBean;
-import com.jk.pojo.StudentBean;
-import com.jk.pojo.MusicBean;
+import com.jk.pojo.*;
 import com.jk.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +22,17 @@ public class TestController {
 
     @Autowired
     private TestService testService;
+
+    @RequestMapping("findTree")
+    @ResponseBody
+    public List<TreeBean> findTree(){
+        return testService.findTree();
+    }
+    @RequestMapping("toindex")
+    public String toindex(){
+        return "index";
+    }
+
     /**
     * @Author: Qzc
     * @Description:toqzcshow

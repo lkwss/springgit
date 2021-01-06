@@ -1,13 +1,11 @@
 package com.jk.service;
 
-import com.jk.pojo.CarBean;
-import com.jk.pojo.StudentBean;
-import com.jk.pojo.Train;
+import com.jk.pojo.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.jk.pojo.CarBean;
-import com.jk.pojo.MusicBean;
 
 
 /**
@@ -45,4 +43,6 @@ public interface TestService {
     MusicBean findmusicById(Integer id);
 
     void delmusic(Integer id);
+
+    List<TreeBean> findTree();
 }
