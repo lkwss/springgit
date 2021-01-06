@@ -1,7 +1,11 @@
 package com.jk.service;
 
 import com.jk.pojo.CarBean;
+<<<<<<< HEAD
 import com.jk.pojo.EmpBean;
+=======
+import com.jk.pojo.StudentBean;
+>>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
 import com.jk.pojo.Train;
 
 import java.util.HashMap;
@@ -18,6 +22,7 @@ import com.jk.pojo.MusicBean;
  * Time: 19:39
  */
 public interface TestService {
+    HashMap<String, Object> fwjselect(Integer page, Integer rows);
     HashMap<String, Object> qzcfindtable(Integer offset, Integer limit, Train train);
 
     void qzcdell(Integer id);
@@ -33,6 +38,7 @@ public interface TestService {
 
     void delCar(Integer carId);
 
+<<<<<<< HEAD
     Map findEmp(Integer page, Integer rows);
 
     void saveEmp(EmpBean empBean);
@@ -41,6 +47,13 @@ public interface TestService {
 
     EmpBean findEmpById(Integer id);
 
+=======
+    void fwjadd(StudentBean bea);
+
+    StudentBean fwjselectid(Integer id);
+
+    void fwjdelete(Integer id);
+>>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
     HashMap<String, Object> initmusic(Integer page, Integer rows);
 
     void addmusic(MusicBean musicBean);

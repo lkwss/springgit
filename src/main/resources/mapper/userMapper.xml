@@ -5,9 +5,24 @@
         insert into t_car(carName,typeName,carPrice,carDate)
         values (#{carName},#{typeName}#{carPrice}#{carDate})
     </insert>
+    <update id="updCar">
+        update t_car set carName = #{carName},typeName = #{typeName},carPrice = #{carPrice},carDate = #{carDate}
+    </update>
 
 
-
+    <insert id="fwjadd" useGeneratedKeys="true" keyProperty="id">
+        insert into t_student(name,content,time,lname)
+        values(#{name},#{content},#{time},#{lname})
+    </insert>
+    <select id="fwjselectid" resultType="com.jk.pojo.StudentBean">
+        select * from t_student where id=#{id}
+    </select>
+    <update id="fwjupdate">
+        update t_student set name=#{name},content=#{content},time=#{time},lname=#{lname} where id=#{id}
+    </update>
+    <delete id="fwjdelete">
+        delete from t_student where id =#{id}
+      </delete>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_train
     where id = #{id}

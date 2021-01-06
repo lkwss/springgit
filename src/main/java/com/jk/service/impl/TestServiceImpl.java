@@ -4,7 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.jk.dao.EsDao;
 import com.alibaba.fastjson.JSONObject;
 import com.jk.dao.CarEs;
+<<<<<<< HEAD
 import com.jk.dao.EmpEs;
+=======
+import com.jk.dao.Stude;
+import com.jk.dao.TestDao;
+import com.jk.pojo.StudentBean;
+>>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
 import com.jk.dao.MusicEs;
 import com.jk.dao.TestDao;
 import com.jk.pojo.Train;
@@ -34,6 +40,10 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +67,6 @@ public class TestServiceImpl implements TestService {
 
     @Autowired
     private CarEs carEs;
-
     @Autowired
     private EmpEs empEs;
 
@@ -67,6 +76,32 @@ public class TestServiceImpl implements TestService {
     @Autowired
     private ElasticsearchTemplate template;
 
+    @Autowired
+    private Stude stude;
+    @Autowired
+    private ElasticsearchTemplate templatefwj;
+    @Override
+    public HashMap<String, Object> fwjselect(Integer page, Integer rows) {
+        List<StudentBean> list=new ArrayList<>();
+        HashMap<String,Object> map= new HashMap<>();
+        Client client = template.getClient();
+        SearchRequestBuilder car = client.prepareSearch("student").setTypes("0105");
+        car.setFrom((page-1)*rows);
+        car.setSize(rows);
+        SearchResponse searchResponse = car.get();
+        SearchHits hits = searchResponse.getHits();
+        Iterator<SearchHit> iterator = hits.iterator();
+        while (iterator.hasNext()){
+            SearchHit next = iterator.next();
+            String str = next.getSourceAsString();
+            StudentBean studentBean = JSONObject.parseObject(str, StudentBean.class);
+            list.add(studentBean);
+        }
+        long total = hits.getTotalHits();
+        map.put("total",total);
+        map.put("rows",list);
+        return map;
+}
     @Override
     public HashMap<String, Object> qzcfindtable(Integer offset, Integer limit, Train train) {
 
@@ -232,6 +267,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+<<<<<<< HEAD
     public Map<String,Object> findEmp(Integer page, Integer rows) {
         Map<String, Object> result = new HashMap<String, Object>();
         List<EmpBean> list = new ArrayList<>();
@@ -290,6 +326,27 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+=======
+    public void fwjadd(StudentBean bea) {
+        if (bea.getId()==null){
+            testDao.fwjadd(bea);
+        }else{
+            testDao.fwjupdate(bea);
+        }
+        stude.save(bea);
+    }
+
+    @Override
+    public StudentBean fwjselectid(Integer id) {
+        return testDao.fwjselectid(id);
+    }
+
+    @Override
+    public void fwjdelete(Integer id) {
+        stude.deleteById(id);
+        testDao.fwjdelete(id);
+    }
+>>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
     public HashMap<String, Object> initmusic(Integer page, Integer rows) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         List<MusicBean> list = new ArrayList<>();

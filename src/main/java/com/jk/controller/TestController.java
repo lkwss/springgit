@@ -3,6 +3,7 @@ package com.jk.controller;
 import com.jk.pojo.Train;
 import com.jk.pojo.CarBean;
 import com.jk.pojo.EmpBean;
+import com.jk.pojo.StudentBean;
 import com.jk.pojo.MusicBean;
 import com.jk.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("test")
 public class TestController {
-
 
     @Autowired
     private TestService testService;
@@ -168,6 +168,11 @@ public class TestController {
     }
 
 
+    @RequestMapping("fwjselect")
+    @ResponseBody
+    public HashMap<String,Object> fwjselect(Integer page,Integer rows) {
+        return testService.fwjselect(page, rows);
+    }
     @RequestMapping("lwShow")
     public String lwShow(){
         return "lwShow";
@@ -201,11 +206,37 @@ public class TestController {
     public void delCar(Integer carId){
         testService.delCar(carId);
     }
+
+    @RequestMapping("fwjadd")
+    @ResponseBody
+    public void fwjadd(StudentBean bea){
+        testService.fwjadd(bea);
+    }
+
+    @RequestMapping("fwjselectid")
+    @ResponseBody
+    public StudentBean fwjselectid(Integer id){
+        return testService.fwjselectid(id);
+    }
+    @RequestMapping("fwjcha")
+    public String fwjcha(){
+        return "showfwj";
+    }
+    @RequestMapping("fwjzeng")
+    public String fwjzeng(){
+        return "fwjadd";
+    }
+
+    @RequestMapping("fwjdelete")
+    @ResponseBody
+    public void fwjdelete(Integer id) {
+        testService.fwjdelete(id);
+    }
     /**
      * @Author: lkw
      * @Description:查询
      * @Date: 2021/1/5 20:46
-      * @param page
+     * @param page
      * @param rows
      * @Return: java.util.HashMap<java.lang.String,java.lang.Object>
      **/
@@ -218,7 +249,7 @@ public class TestController {
      * @Author: lkw
      * @Description:新增音乐
      * @Date: 2021/1/5 20:47
-      * @param musicBean
+     * @param musicBean
      * @Return: void
      **/
     @RequestMapping("addmusic")
@@ -230,7 +261,7 @@ public class TestController {
      * @Author: lkw
      * @Description:回显
      * @Date: 2021/1/5 20:55
-      * @param id
+     * @param id
      * @Return: com.jk.pojo.MusicBean
      **/
     @RequestMapping("findmusicById")
@@ -242,7 +273,7 @@ public class TestController {
      * @Author: lkw
      * @Description:删除
      * @Date: 2021/1/5 21:04
-      * @param id
+     * @param id
      * @Return: void
      **/
     @RequestMapping("delmusic")
