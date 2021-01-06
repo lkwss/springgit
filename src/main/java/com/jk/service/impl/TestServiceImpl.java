@@ -257,6 +257,7 @@ public class TestServiceImpl implements TestService {
             String str = next.getSourceAsString();
             //把字符串转换成javabean对象
             EmpBean empBean = JSONObject.parseObject(str, EmpBean.class);
+            list.add(empBean);
         }
         //获取总条数：
         long total = hits.getTotalHits();
@@ -284,7 +285,8 @@ public class TestServiceImpl implements TestService {
     @Override
     public EmpBean findEmpById(Integer id) {
         Optional<EmpBean> esById = empEs.findById(id);
-        return esById.get();
+        EmpBean empBean = esById.get();
+        return empBean;
     }
 
     @Override

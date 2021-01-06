@@ -50,4 +50,8 @@
     <delete id="delmusic">
         delete from t_music where id=#{id}
     </delete>
+
+    <insert id="saveEmp" useGeneratedKeys="true" keyProperty="id">
+        insert into t_emp(empName,pay,motto,sex) values(#{empName},#{pay},#{motto},#{sex})
+    </insert>
 </mapper>

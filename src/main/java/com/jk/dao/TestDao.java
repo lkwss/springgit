@@ -33,7 +33,7 @@ public interface TestDao {
     @Delete("delete from t_car where carId = #{carId}")
     void delCar(Integer carId);
 
-    @Insert("insert into t_emp(empName,pay,motto,sex) values(#{empName},#{pay},#{motto},#{sex}) ")
+//    @Insert("insert into t_emp(empName,pay,motto,sex) values(#{empName},#{pay},#{motto},#{sex}) ")
     void saveEmp(EmpBean empBean);
 
     @Delete("delete from t_emp where id = #{id}")

@@ -155,5 +155,10 @@
             ]
         })
     }
+    function delEmp(id) {
+        $.post('../test/delEmpById',{id:id},function (data) {
+            alert("删除成功");
+        })
+    }
 </script>
 </html>
