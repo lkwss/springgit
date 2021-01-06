@@ -3,7 +3,7 @@
 <mapper namespace="com.jk.dao.TestDao">
     <insert id="saveCar" useGeneratedKeys="true" keyProperty="carId">
         insert into t_car(carName,typeName,carPrice,carDate)
-        values (#{carName},#{typeName}#{carPrice}#{carDate})
+        values (#{carName},#{typeName},#{carPrice},#{carDate})
     </insert>
     <update id="updCar">
         update t_car set carName = #{carName},typeName = #{typeName},carPrice = #{carPrice},carDate = #{carDate}
@@ -69,4 +69,9 @@
     <insert id="saveEmp" useGeneratedKeys="true" keyProperty="id">
         insert into t_emp(empName,pay,motto,sex) values(#{empName},#{pay},#{motto},#{sex})
     </insert>
+
+    <select id="findTree" resultType="com.jk.pojo.TreeBean">
+        select * from t_tree where pid = #{pid}
+    </select>
+
 </mapper>

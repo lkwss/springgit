@@ -4,13 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.jk.dao.EsDao;
 import com.alibaba.fastjson.JSONObject;
 import com.jk.dao.CarEs;
-<<<<<<< HEAD
 import com.jk.dao.EmpEs;
-=======
 import com.jk.dao.Stude;
 import com.jk.dao.TestDao;
+import com.jk.pojo.*;
 import com.jk.pojo.StudentBean;
->>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
 import com.jk.dao.MusicEs;
 import com.jk.dao.TestDao;
 import com.jk.pojo.Train;
@@ -80,6 +78,34 @@ public class TestServiceImpl implements TestService {
     private Stude stude;
     @Autowired
     private ElasticsearchTemplate templatefwj;
+
+
+    @Override
+    public List<TreeBean> findTree() {
+        int pid = 0;
+        //定义key
+        String key = "s_tree";
+        List<TreeBean> list = findTree1(pid);
+        return list;
+    }
+
+
+
+    private List<TreeBean> findTree1(int pid) {
+        List<TreeBean> list = testDao.findTree(pid);
+        for (TreeBean treeBean : list) {
+            Integer id = treeBean.getId();
+            List<TreeBean> nodeList = findTree1(id);
+            if (nodeList!=null && nodeList.size()>0) {
+                treeBean.setNodes(nodeList);
+                treeBean.setSelectable(false);
+            }else {
+                treeBean.setSelectable(true);
+            }
+        }
+        return list;
+    }
+
     @Override
     public HashMap<String, Object> fwjselect(Integer page, Integer rows) {
         List<StudentBean> list=new ArrayList<>();
@@ -267,7 +293,6 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-<<<<<<< HEAD
     public Map<String,Object> findEmp(Integer page, Integer rows) {
         Map<String, Object> result = new HashMap<String, Object>();
         List<EmpBean> list = new ArrayList<>();
@@ -326,7 +351,6 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-=======
     public void fwjadd(StudentBean bea) {
         if (bea.getId()==null){
             testDao.fwjadd(bea);
@@ -346,7 +370,6 @@ public class TestServiceImpl implements TestService {
         stude.deleteById(id);
         testDao.fwjdelete(id);
     }
->>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
     public HashMap<String, Object> initmusic(Integer page, Integer rows) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         List<MusicBean> list = new ArrayList<>();

@@ -2,17 +2,17 @@ package com.jk.dao;
 
 import com.jk.pojo.Train;
 import com.jk.pojo.CarBean;
-<<<<<<< HEAD
+
 import com.jk.pojo.EmpBean;
-=======
+
 import com.jk.pojo.StudentBean;
->>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
 import com.jk.pojo.MusicBean;
+import com.jk.pojo.*;
 import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,14 +37,12 @@ public interface TestDao {
     @Delete("delete from t_car where carId = #{carId}")
     void delCar(Integer carId);
 
-<<<<<<< HEAD
 //    @Insert("insert into t_emp(empName,pay,motto,sex) values(#{empName},#{pay},#{motto},#{sex}) ")
     void saveEmp(EmpBean empBean);
 
     @Delete("delete from t_emp where id = #{id}")
     void delEmpById(Integer id);
 
-=======
     void fwjadd(StudentBean bea);
 
     StudentBean fwjselectid(Integer id);
@@ -52,11 +50,7 @@ public interface TestDao {
     void fwjupdate(StudentBean bea);
 
     void fwjdelete(Integer id);
->>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
     void updCar(CarBean carBean);
-
-    @Update("update t_emp set empName = #{empName},pay = #{pay},motto = #{motto},sex = #{sex} where id = #{id}")
-    void updateEmp(EmpBean empBean);
 
     void addmusic(MusicBean musicBean);
 

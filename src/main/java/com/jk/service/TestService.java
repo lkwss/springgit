@@ -1,18 +1,16 @@
 package com.jk.service;
 
 import com.jk.pojo.CarBean;
-<<<<<<< HEAD
 import com.jk.pojo.EmpBean;
-=======
 import com.jk.pojo.StudentBean;
->>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
 import com.jk.pojo.Train;
+import com.jk.pojo.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import com.jk.pojo.CarBean;
-import com.jk.pojo.MusicBean;
 
 
 /**
@@ -38,7 +36,6 @@ public interface TestService {
 
     void delCar(Integer carId);
 
-<<<<<<< HEAD
     Map findEmp(Integer page, Integer rows);
 
     void saveEmp(EmpBean empBean);
@@ -47,13 +44,11 @@ public interface TestService {
 
     EmpBean findEmpById(Integer id);
 
-=======
     void fwjadd(StudentBean bea);
 
     StudentBean fwjselectid(Integer id);
 
     void fwjdelete(Integer id);
->>>>>>> fd57b1eddbc0f301779daa2b71f2b7003505f403
     HashMap<String, Object> initmusic(Integer page, Integer rows);
 
     void addmusic(MusicBean musicBean);
@@ -61,4 +56,6 @@ public interface TestService {
     MusicBean findmusicById(Integer id);
 
     void delmusic(Integer id);
+
+    List<TreeBean> findTree();
 }
