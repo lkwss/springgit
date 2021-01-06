@@ -1,6 +1,8 @@
 package com.jk.controller;
 
+import com.jk.pojo.Train;
 import com.jk.pojo.CarBean;
+import com.jk.pojo.MusicBean;
 import com.jk.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,81 @@ public class TestController {
 
     @Autowired
     private TestService testService;
+    /**
+    * @Author: Qzc
+    * @Description:toqzcshow
+    * @Date: 2021/1/5 0005 20:16
+     * @param
+    *  @Return: java.lang.String
+    **/
+    @RequestMapping("toqzcshow")
+    public String toqzcshow(){
+        return "qzcshow";
+    }
+    /**
+    * @Author: Qzc
+    * @Description:toqzcadd
+    * @Date: 2021/1/5 0005 20:16
+     * @param
+    *  @Return: java.lang.String
+    **/
+    @RequestMapping("toqzcadd")
+    public String toqzcadd(){
+        return "qzcadd";
+    }
+
+    /**
+    * @Author: Qzc
+    * @Description:qzcfindtable
+    * @Date: 2021/1/5 0005 20:16
+     * @param offset
+     * @param limit
+     * @param train
+    *  @Return: java.util.HashMap<java.lang.String,java.lang.Object>
+    **/
+    @RequestMapping("qzcfindtable")
+    @ResponseBody
+    public HashMap<String,Object> qzcfindtable(Integer offset, Integer limit, Train train){
+        return testService.qzcfindtable(offset,limit,train);
+    }
+    /**
+    * @Author: Qzc
+    * @Description:qzcdell
+    * @Date: 2021/1/5 0005 20:22
+     * @param id
+    *  @Return: void
+    **/
+    @RequestMapping("qzcdell")
+    @ResponseBody
+    public void qzcdell(Integer id){
+        testService.qzcdell(id);
+    }
+    /**
+    * @Author: Qzc
+    * @Description:qzcadd
+    * @Date: 2021/1/5 0005 20:28
+     * @param train
+    *  @Return: void
+    **/
+    @RequestMapping("qzcadd")
+    @ResponseBody
+    public void qzcadd(Train train){
+        testService.qzcadd(train);
+    }
+
+    /**
+    * @Author: Qzc
+    * @Description:qzcgetbyid
+    * @Date: 2021/1/5 0005 20:29
+     * @param id
+    *  @Return: com.jk.pojo.Train
+    **/
+    @RequestMapping("qzcgetbyid")
+    @ResponseBody
+    public Train qzcgetbyid(Integer id){
+        return testService.qzcgetbyid(id);
+    }
+
 
     @RequestMapping("lwShow")
     public String lwShow(){
@@ -55,5 +132,62 @@ public class TestController {
     @ResponseBody
     public void delCar(Integer carId){
         testService.delCar(carId);
+    }
+    /**
+     * @Author: lkw
+     * @Description:查询
+     * @Date: 2021/1/5 20:46
+      * @param page
+     * @param rows
+     * @Return: java.util.HashMap<java.lang.String,java.lang.Object>
+     **/
+    @RequestMapping("initmusic")
+    @ResponseBody
+    public HashMap<String, Object> initmusic(Integer page, Integer rows){
+        return testService.initmusic(page, rows);
+    }
+    /**
+     * @Author: lkw
+     * @Description:新增音乐
+     * @Date: 2021/1/5 20:47
+      * @param musicBean
+     * @Return: void
+     **/
+    @RequestMapping("addmusic")
+    @ResponseBody
+    public void addmusic(MusicBean musicBean){
+        testService.addmusic(musicBean);
+    }
+    /**
+     * @Author: lkw
+     * @Description:回显
+     * @Date: 2021/1/5 20:55
+      * @param id
+     * @Return: com.jk.pojo.MusicBean
+     **/
+    @RequestMapping("findmusicById")
+    @ResponseBody
+    public MusicBean findmusicById(Integer id){
+        return testService.findmusicById(id);
+    }
+    /**
+     * @Author: lkw
+     * @Description:删除
+     * @Date: 2021/1/5 21:04
+      * @param id
+     * @Return: void
+     **/
+    @RequestMapping("delmusic")
+    @ResponseBody
+    public void delmusic(Integer id){
+        testService.delmusic(id);
+    }
+    @RequestMapping("goshow")
+    public String goshow(){
+        return "showlkw";
+    }
+    @RequestMapping("toadd")
+    public String goadd(){
+        return "addgoods";
     }
 }

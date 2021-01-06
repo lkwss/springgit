@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+<!-- 引入bootstap的css文件 -->
+<link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap.css">
+<link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap-theme.css">
+
+<!-- 引入jquery文件 -->
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap/bootstrap3/js/bootstrap.js"></script>
+
+<!-- 引入bootstap的table文件 -->
+<link rel="stylesheet" href="../js/bootstrap/bootstrap-table/bootstrap-table.css">
+<script src="../js/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+<script src="../js/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+<!-- 引入bootstap的bootbox文件 -->
+<script src="../js/bootstrap/bootstrap-bootbox/bootbox.js"></script>
+
+<!-- 引入bootstap的datetimepicker文件 -->
+<script src="../js/bootstrap/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"> </script>
+<script src="../js/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+ <link rel="stylesheet"  href="../js/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+ <!-- 引入bootstap的fileinput文件 -->
+ <script src="../js/bootstrap/bootstrap-fileinput/js/fileinput.js"></script>
+  <script src="../js/bootstrap/bootstrap-fileinput/js/locales/zh.js"></script>
+  <link rel="stylesheet" href="../js/bootstrap/bootstrap-fileinput/css/fileinput.css">
+
+<title>Insert title here</title>
+</head>
+<body>
+
+	<dir id="tools">
+		<form class="form-inline">
+			<div class="form-group">
+				<label >出发and到达</label>
+    			<input type="text" class="form-control" id="strandend" >
+			</div>
+			<div class="form-group">
+				<label >票价</label>
+					<input type="text"  id="startprice" class="form-control"> ---
+					<input type="text"  id="endprice" class="form-control">
+			</div>
+		<a class='btn btn-default' href='javascript:searchtt()' role='button'>搜索</a>
+		<a class='btn btn-default' href='javascript:openadd()' role='button'>新增</a>
+		</form>
+	</dir>
+	
+	<table class="table"  id="table"></table>
+</body>
+<script type="text/javascript">
+$(function(){
+	initTable();
+})
+
+	function getbyid(id){
+	
+	bootbox.dialog({
+		title:'修改	影片', 
+		message: createAddContent("../test/toqzcadd"),//弹框内容
+		closeButton: true, 
+		size:"large",
+		buttons : { 
+			"success"	: { 
+				"label" : "<i class='icon-ok'></i> 保存",
+				"className" : "btn-sm btn-success",
+				"callback" : function() { 
+					$.ajax({
+						url:'../test/qzcadd',
+						type:'post', 
+						data:$("#addform").serialize(),
+					success:function(data){
+						searchtt();
+						} 
+					}); 
+				} 
+			},
+				"cancel" : { "label" : "<i class='icon-info'></i> 取消", 
+				"className" : "btn-sm btn-danger",
+				"callback" : function() {
+					
+				}
+			} 
+		} 
+	});
+	//通过mid回显数据
+	$.ajax({
+		url:'../test/qzcgetbyid',//后台请求地址
+		async:false,//同步 
+		data:{id:id},
+		success:function(data){
+			$("#id").val(data.id);
+			$("#trainname").val(data.trainname);
+			$("#price").val(data.price);
+			$("#start").val(data.start);
+			$("#end").val(data.end);
+			$("#tname").val(data.tname);
+			$("#info").val(data.info);
+			$("#time").val(data.time);
+
+		}
+	});	
+}
+
+
+
+
+
+	
+	var res; 
+	function createAddContent(url){
+		$.ajax({
+			url:url,
+			async:false,//同步 
+			success:function(data){ 
+				res = data; 
+				} 
+		   }); 
+		return res;
+	}
+	
+	function openadd(){
+		
+	bootbox.dialog({
+		title:'添加',
+		message: createAddContent("../test/toqzcadd"),//弹框内容
+		closeButton: true, 
+		size:"large",
+		buttons : { 
+			"success"	: { 
+				"label" : "<i class='icon-ok'></i> 保存",
+				"className" : "btn-sm btn-success",
+				"callback" : function() { 
+					$.ajax({ 
+						url:'../test/qzcadd',
+						type:'post', 
+						data:$("#addform").serialize(),
+					//dataType:'json',
+					success:function(data){ 
+						searchtt();
+						} 
+					}); 
+				} 
+			},
+				"cancel" : { "label" : "<i class='icon-info'></i> 取消", 
+				"className" : "btn-sm btn-danger",
+				"callback" : function() {
+					
+				}
+			} 
+		} 
+});
+}
+
+	function	dell(id){
+				$.ajax({
+					url:"../test/qzcdell",
+					type:"post",
+					data:{id:id},
+					success:function(){
+						alert("删除成功");
+						searchtt()
+					}
+		})
+	}
+	function searchtt(){
+		var strandend = $('#strandend').val();
+		var startprice = $('#startprice').val();
+		var endprice = $('#endprice').val();
+		
+		$("#table").bootstrapTable("refresh", 
+				{ query:{
+					'strandend':strandend,
+					'startprice':startprice,
+					'endprice':endprice,
+					} 
+		});
+	}
+	
+	function initTable(){
+	$('#table').bootstrapTable({
+		toolbar:'#toolbar',
+		url:"../test/qzcfindtable",
+		toolbar:"#tools",
+		columns:[
+					[
+				{field:"check",checkbox:true},
+		          {field:"trainname",title:"车次名称",width:100},
+		          {field:"tname",title:"类型",width:100},
+		          {field:"start",title:"出发站",width:100},
+		          {field:"end",title:"到达站",width:100},
+		          {field:"price",title:"票价",width:100},
+		          {field:"info",title:"描述",width:100},
+			      {field:"time",title:"发出时间",width:100},
+		          {field:"cao",title:"操作",width:200,formatter:function(value,row,index){
+		        	var str = "<a class='btn btn-default' href='javascript:dell(\""+row.id+"\")' role='button'>删除</a> | "+"<a class='btn btn-default' href='javascript:getbyid(\""+row.id+"\")' role='button'>修改</a>"
+					return str
+		          }},
+		          ]
+			],
+				pagination:true,
+				pageSize:5,
+				pageList:[2,5,8,10,15],
+				pageNumber:1,
+				sidePagination:'server',
+				//search:true,
+				showRefresh:true,
+	})
+}
+	$('.date').datetimepicker({
+		  language: 'zh-CN',//显示中文
+		  //format: 'yyyy-mm-dd hh:ii:ss',//显示格式
+		  format: 'yyyy-mm-dd',//显示格式
+		  minView: "month",//设置只显示到月份
+		  initialDate: new Date(),//初始化当前日期
+		  autoclose: true,//选中自动关闭
+		  todayBtn: true//显示今日按钮
+		 });
+</script>
+</html>

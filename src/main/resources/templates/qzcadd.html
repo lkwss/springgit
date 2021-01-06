@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+		<div class="container-fluid">
+			<form id="addform">
+				<input type="hidden" id="id" name="id"/>
+				<div class="form-group">
+					<div class=“row”>
+						<div class="col-md-2">
+							<label >车次名称</label>
+						</div>
+						<div class="col-md-4">
+							<input type="text"  name="trainname"  id="trainname"  class="form-control"  />
+						</div>
+						<div class="col-md-2">
+							<label>票价</label>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="price" id="price" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class=“row”>
+						<div class="col-md-2">
+							<label >出发站</label>
+						</div>
+						<div class="col-md-4">
+							<input type="text"  name="start"  id="start"  class="form-control"  />
+						</div>
+						<div class="col-md-2">
+							<label>到达站</label>
+						</div>
+						<div class="col-md-4">
+									<input type="text"  name="end"  id="end"  class="form-control"  />
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class=“row”>
+					<div class="col-md-2">
+							<label>火车类型</label>
+						</div>
+						<div class="col-md-4">
+									<!--<select class="form-control"  name="tname"  id="tname">
+										<option value="-1">请选择</option>
+										<option value="火车">火车</option>
+										<option value="动车">动车</option>
+										<option value="高铁">高铁</option>
+									</select>-->
+							<input type="text"  name="tname"  id="tname"  class="form-control"  />
+						</div>
+						<div class="col-md-2">
+							<label >简介</label>
+						</div>
+						<div class="col-md-4">
+							<input  name="info"  id="info" class="form-control" rows="5" cols="10"/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class=“row”>
+					<div class="col-md-2">
+							<label>到达时间</label>
+						</div>
+						<div class="col-md-4">
+							<input type="text"  name="time"  id="time"  class="form-control date"  />
+
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+</body>
+
+<script type="text/javascript">
+	$('.date').datetimepicker({
+	  language: 'zh-CN',//显示中文
+	  //format: 'yyyy-mm-dd hh:ii:ss',//显示格式
+	  format: 'yyyy-mm-dd',//显示格式
+	  minView: "month",//设置只显示到月份
+	  initialDate: new Date(),//初始化当前日期
+	  autoclose: true,//选中自动关闭
+	  todayBtn: true//显示今日按钮
+	 });
+</script>
+</html>
