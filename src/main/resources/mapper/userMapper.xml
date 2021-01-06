@@ -52,7 +52,4 @@
     <delete id="delmusic">
         delete from t_music where id=#{id}
     </delete>
-    <update id="updCar">
-        update t_car set carName = #{carName},typeName = #{typeName},carPrice = #{carPrice},carDate = #{carDate}
-    </update>
 </mapper>
