@@ -5,7 +5,9 @@
         insert into t_car(carName,typeName,carPrice,carDate)
         values (#{carName},#{typeName}#{carPrice}#{carDate})
     </insert>
-
+    <update id="updCar">
+        update t_car set carName = #{carName},typeName = #{typeName},carPrice = #{carPrice},carDate = #{carDate}
+    </update>
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
