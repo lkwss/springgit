@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap.css">
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap3/css/bootstrap-theme.css">
+
+    <!-- 引入jquery文件 -->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <!-- 引入bootstrap的js文件 -->
+    <script type="text/javascript" src="../js/bootstrap/bootstrap3/js/bootstrap.min.js"></script>
+
+    <!-- 引入表格的css和js文件 -->
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap-table/bootstrap-table.css">
+    <script src="../js/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+
+    <!-- 引入弹框的js文件 -->
+    <script src="../js/bootstrap/bootstrap-bootbox/bootbox.js"></script>
+
+    <!-- 引入日期得css和js文件 -->
+    <script src="../js/bootstrap/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+</head>
+<body>
+    <button type="button" onclick="toAdd()" class="btn btn-default">新增</button>
+    <table id="carTable" class="table"></table>
+</body>
+    <script>
+        //初始化加载
+        $(function(){
+            initTable();
+        })
+        //加载汽车表格
+        function initTable(){
+            $("#carTable").bootstrapTable({
+                url:"/test/findCar",
+                columns:[
+                    {field:"carId",title:"carId"},
+                    {field:"carName",title:"carName"},
+                    {field:"typeName",title:"typeName"},
+                    {field:"carPrice",title:"carPrice"},
+                    {field:"carDate",title:"carDate"},
+                    {field:"tools",title:"tools",formatter:function (value,rows,index) {
+                        var str = "";
+                        str+='<button type="button" onclick="delCar('+rows.carId+')" class="btn btn-default">删除</button>';
+                        str+='<button type="button" onclick="toUpd('+rows.carId+')" class="btn btn-default">修改</button>';
+                        return str;
+                        }}
+                ],
+                pagination:true,
+                pageSize:5,
+                pageList:[5,10,15,20],
+                pageNumber:1,
+                sidePagination:'server',
+                queryParams:function(){
+                    return {
+                        page:this.pageNumber,//第几页
+                        rows:this.pageSize,//每页条数x
+                    };
+                }
+            })
+        }
+        //删除方法
+        function delCar(carId){
+            $.ajax({
+                url:"/test/delCar",
+                data:{carId:carId},
+                success:function () {
+                    alert("删除成功！！！");
+                    $('#carTable').bootstrapTable('refresh');//刷新表格
+                }
+            })
+        }
+
+        var res;
+        function createAddContent(url){
+            $.ajax({
+                url:url,
+                async:false,//同步，默认是：异步
+                success:function(data){
+                    res = data;
+                }
+            });
+            return res;
+        }
+
+        //打开新增弹框
+        function toAdd(){
+            bootbox.dialog({
+                title:'新增',
+                message: createAddContent("../test/carSave"),//弹框内容
+                closeButton: true,//是否显示关闭按钮
+                buttons : {
+                    "success" : {
+                        "label" : "<i class='icon-ok'></i> 添加",
+                        "className" : "btn-sm btn-success",
+                        "callback" : function() {
+                            //提交表单数据：保存
+                            $.ajax({
+                                url:'../test/saveCar',//后台请求地址
+                                type:'post',
+                                data:$("#carForm").serialize(),//表单序列化
+                                //dataType:'json',
+                                success:function(){
+                                    $('#carTable').bootstrapTable('refresh');//刷新表格
+                                }
+                            });
+                        }
+                    },
+                }
+            });
+            //加载日期样式
+            initDate();
+        }
+
+        function toUpd(carId){
+            bootbox.dialog({
+                title:'修改',
+                message: createAddContent("../test/carSave"),//弹框内容
+                closeButton: true,//是否显示关闭按钮
+                buttons : {
+                    "success" : {
+                        "label" : "<i class='icon-ok'></i> 修改",
+                        "className" : "btn-sm btn-success",
+                        "callback" : function() {
+                            //提交表单数据：保存
+                            $.ajax({
+                                url:'../test/saveCar',//后台请求地址
+                                type:'post',
+                                data:$("#carForm").serialize(),//表单序列化
+                                //dataType:'json',
+                                success:function(){
+                                    $('#carTable').bootstrapTable('refresh');//刷新表格
+                                }
+                            });
+                        }
+                    },
+                }
+            });
+            initDate();
+            udp(carId);
+        }
+
+        function udp(carId){
+            $.ajax({
+                url:"../test/findCarById",
+                data:{carId:carId},
+                type:"get",
+                success:function (data) {
+                    $("#carId").val(data.carId);
+                    $("#carName").val(data.carName);
+                    $("#typeName").val(data.typeName);
+                    $("#carPrice").val(data.carPrice);
+                    $("#carDate").val(data.carDate);
+                }
+            })
+        }
+
+
+        //加载日期样式
+        function  initDate() {
+            $('.date').datetimepicker({
+                language: 'zh-CN',//显示中文
+                //format: 'yyyy-mm-dd hh:ii:ss',//显示格式
+                format: 'yyyy-mm-dd',//显示格式
+                minView: "month",//设置只显示到月份
+                initialDate: new Date(),//初始化当前日期
+                autoclose: true,//选中自动关闭
+                todayBtn: true//显示今日按钮
+            });
+        }
+    </script>
+</html>

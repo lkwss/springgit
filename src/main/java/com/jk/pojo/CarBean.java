@@ -3,6 +3,7 @@ package com.jk.pojo;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,5 +20,6 @@ public class CarBean {
     private String carName;
     private String typeName;
     private Integer carPrice;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String carDate;
 }
