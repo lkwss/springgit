@@ -28,6 +28,18 @@ public class TestController {
 
     @Autowired
     private TestService testService;
+
+    @RequestMapping("findTree")
+    @ResponseBody
+    public List<TreeBean> findTree(){
+        return testService.findTree();
+    }
+    @RequestMapping("toindex")
+    public String toindex(){
+        return "index";
+    }
+
+
     /**
     * @Author: Qzc
     * @Description:toqzcshow
